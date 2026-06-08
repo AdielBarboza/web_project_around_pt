@@ -1,5 +1,5 @@
-//console.log('Hello, World! This is the index.js script running.');
 
+// Array obj inicial contendo os dados dos cartões a serem exibidos na galeria principal
 const initialCards = [
   {
     name: 'Vale de Yosemite',
@@ -22,11 +22,28 @@ const initialCards = [
   }
 ]
 
-
+// Itera sobre o array inicial para criar e renderizar cada cartão na página
 initialCards.forEach((card) => {
-  const cardElement = createCard(card.name, card.link);
-  document.querySelector('.cards__list').append(cardElement);
+
+  // Insere o elemento criado no container da lista de cartões no DOM
+  //document.querySelector('.cards__list').append(cardElement);
+  // DEBUG: Log para verificar o carregamento dos itens no console durante o desenvolvimento
   console.log('Card added:', card.name);
 }); 
 
+//popup modal de edição do perfil
+const editPopup = document.querySelector('#edit-popup');
+
+
+//botoes de abrir e fechar
+const buttonEdit = document.querySelector('.profile__edit-button');
+const buttonClose = document.querySelector('.popup__close');
+
+buttonEdit.addEventListener('click', () => {
+  editPopup.classList.add('popup_is-opened');
+}); 
+
+buttonClose.addEventListener('click', () => {
+  editPopup.classList.remove('popup_is-opened');
+});
 
