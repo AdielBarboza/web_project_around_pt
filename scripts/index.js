@@ -33,17 +33,53 @@ initialCards.forEach((card) => {
 
 //popup modal de edição do perfil
 const editPopup = document.querySelector('#edit-popup');
+const cardPopup = document.querySelector('#new-card-popup')
+const formElement = document.getElementById('edit-profile-form')
+const nameInput = document.querySelector('.popup__input_type_name')
+const jobInput = document.querySelector('.popup__input_type_description')
+const nomePadrao = document.querySelector('.profile__title')
+const sobrePadrao = document.querySelector('.profile__description')
 
-
-//botoes de abrir e fechar
+//botoes ddocument.quee abrir e fechar
 const buttonEdit = document.querySelector('.profile__edit-button');
 const buttonClose = document.querySelector('.popup__close');
 
+function fillProfileForm (){
+nameInput.value = nomePadrao.textContent;
+jobInput.value = sobrePadrao.textContent;
+}
+
+function openModal(popup) {
+  popup.classList.add('popup_is-opened'); 
+}
+
+function handleOpenEditModal() {
+  fillProfileForm(); // 1. preenche o formulário
+  openModal(editPopup);       // 2. abre o pop-up
+}
+
+function closeModal(popup) {
+  popup.classList.remove('popup_is-opened'); 
+}
+
+function handleProfileFormSubmit(evt) {
+
+  evt.preventDefault();
+}
+
 buttonEdit.addEventListener('click', () => {
-  editPopup.classList.add('popup_is-opened');
-}); 
+  handleOpenEditModal();
+});
 
 buttonClose.addEventListener('click', () => {
-  editPopup.classList.remove('popup_is-opened');
+  closeModal(editPopup);
 });
+
+formElement.addEventListener('submit', (evt) => {
+      
+      handleProfileFormSubmit(evt);
+      nomePadrao.textContent = nameInput.value
+      sobrePadrao.textContent = jobInput.value
+});
+
 
