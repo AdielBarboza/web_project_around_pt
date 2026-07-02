@@ -4,32 +4,34 @@ const initialCards = [
   {
     name: 'Vale de Yosemite',
     link: 'https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg',
-    
+  },
+  {
     name: 'Lago Louise',
     link: 'https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg',
-    
+  },{
+
     name: 'Montanhas Carecas',
     link: 'https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg',
-    
+  },{
      name: 'Latemar',
     link: 'https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg',
-
+  },{
     name: 'Parque Nacional Vanoise',
     link: 'https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg',
-
+  },{
     name: 'Lago di Braies',
     link: 'https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg',
   }
 ]
 
-// Itera sobre o array inicial para criar e renderizar cada cartão na página
+
 initialCards.forEach((card) => {
 
-  // Insere o elemento criado no container da lista de cartões no DOM
-  //document.querySelector('.cards__list').append(cardElement);
-  // DEBUG: Log para verificar o carregamento dos itens no console durante o desenvolvimento
-  console.log('Card added:', card.name);
+
+  console.log('Card adicionado:', card);
 }); 
+
+
 
 //popup modal de edição do perfil
 const editPopup = document.querySelector('#edit-popup');
@@ -43,6 +45,26 @@ const sobrePadrao = document.querySelector('.profile__description')
 //botoes ddocument.quee abrir e fechar
 const buttonEdit = document.querySelector('.profile__edit-button');
 const buttonClose = document.querySelector('.popup__close');
+
+//template dos cards
+const cardTemplate = document.getElementById('card-template')
+const cardsContainer = document.querySelector('.cards__list')
+
+
+
+
+//popup add card
+const buttonCardAdd = document.querySelector('.profile__add-button') //seleciona o botao do add button e coloca na const buttonCardAdd
+
+buttonCardAdd.addEventListener('click',() => {
+  openModal(cardPopup);
+}); //adiciona o evento de click ao botao para quando clicar abrir o popup do openmodal 
+
+const buttonCardClose = cardPopup.querySelector('.popup__close');
+
+buttonCardClose.addEventListener('click', () => {
+  closeModal(cardPopup);
+}); //fecha o popup do CardADD
 
 function fillProfileForm (){
 nameInput.value = nomePadrao.textContent;
@@ -82,4 +104,28 @@ formElement.addEventListener('submit', (evt) => {
       sobrePadrao.textContent = jobInput.value
 });
 
+function getCardElement(name = "Lugar sem nome", link = "./images/placeholder.jpg") {
+  const cardElement = cardTemplate.content.querySelector('.card').cloneNode(true);
 
+  const cardTitle = cardElement.querySelector('.card__title');
+  const cardImage = cardElement.querySelector('.card__image');
+
+  cardTitle.textContent = name;
+  cardImage.src = link;
+  cardImage.alt = name;
+
+  return cardElement;
+}
+
+function renderCard(name, link, container) {
+  const cardElement = getCardElement(name, link);
+
+  console.log(container);
+
+  container.append(cardElement);
+  
+}
+
+initialCards.forEach((item) => {
+  renderCard(item.name, item.link, cardsContainer);
+});
