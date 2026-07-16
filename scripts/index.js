@@ -26,22 +26,20 @@ const initialCards = [
   },
 ];
 
-
-
 //popup modal de edição do perfil
 const editPopup = document.querySelector('#edit-popup');
 const cardPopup = document.querySelector('#new-card-popup');
 const formElement = document.getElementById('edit-profile-form');
 const nameInput = document.querySelector('.popup__input_type_name');
 const jobInput = document.querySelector('.popup__input_type_description');
-const nomePadrao = document.querySelector('.profile__title');
-const sobrePadrao = document.querySelector('.profile__description');
+const defaultName = document.querySelector('.profile__title');
+const profileDescription = document.querySelector('.profile__description');
 
 //elementos do image popup
 const imagePopup = document.getElementById('image-popup');
-const imageLink = imagePopup.querySelector('.popup__image')
-const closePopupImage = imagePopup.querySelector('.popup__close')
-const ImageCaption =  imagePopup.querySelector('.popup__caption');
+const imageLink = imagePopup.querySelector('.popup__image');
+const closePopupImage = imagePopup.querySelector('.popup__close');
+const ImageCaption = imagePopup.querySelector('.popup__caption');
 
 //popup adicao de card, title e image
 const newTitle = document.querySelector('.popup__input_type_card-name');
@@ -70,8 +68,8 @@ buttonCardClose.addEventListener('click', () => {
 }); //fecha o popup do CardADD
 
 function fillProfileForm() {
-  nameInput.value = nomePadrao.textContent;
-  jobInput.value = sobrePadrao.textContent;
+  nameInput.value = defaultName.textContent;
+  jobInput.value = profileDescription.textContent;
 }
 
 function openModal(popup) {
@@ -87,10 +85,9 @@ function closeModal(popup) {
   popup.classList.remove('popup_is-opened');
 }
 
-
-
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
+  closeModal(editPopup);
 }
 
 buttonEdit.addEventListener('click', () => {
@@ -101,14 +98,14 @@ buttonClose.addEventListener('click', () => {
   closeModal(editPopup);
 });
 
- closePopupImage.addEventListener('click', (evt)=>{
+closePopupImage.addEventListener('click', (evt) => {
   closeModal(imagePopup);
- });
+});
 
 formElement.addEventListener('submit', (evt) => {
   handleProfileFormSubmit(evt);
-  nomePadrao.textContent = nameInput.value;
-  sobrePadrao.textContent = jobInput.value;
+  defaultName.textContent = nameInput.value;
+  profileDescription.textContent = jobInput.value;
 });
 
 function handleCardDelete(evt) {
@@ -135,29 +132,24 @@ function getCardElement(
 
   cardButtom.addEventListener('click', (evt) => {
     cardButtom.classList.toggle('card__like-button_is-active');
-    
   });
 
   cardDelete.addEventListener('click', handleCardDelete);
 
-  cardImage.addEventListener('click', (evt) =>{
+  cardImage.addEventListener('click', (evt) => {
+    imagePopup.classList.add('popup_is-opened');
+    imageLink.src = link;
+    imageLink.alt = name;
+    ImageCaption.textContent = name;
+  });
 
-     imagePopup.classList.add('popup_is-opened');
-     imageLink.src = link; 
-     imageLink.alt = name;
-     ImageCaption.textContent = name;
-  })
-
- 
   return cardElement;
 }
 //clona template e adiciona na tela com append
 function renderCard(name, link, container) {
   const cardElement = getCardElement(name, link);
 
-  
-
-  container.append(cardElement);
+  container.prepend(cardElement);
 }
 
 initialCards.forEach((item) => {
@@ -166,6 +158,7 @@ initialCards.forEach((item) => {
 
 function handleCardFormSubmit() {
   renderCard(newTitle.value, newImage.value, cardsContainer);
+  closeModal(cardPopup);
 }
 formNewCards.addEventListener('submit', (evt) => {
   evt.preventDefault();
